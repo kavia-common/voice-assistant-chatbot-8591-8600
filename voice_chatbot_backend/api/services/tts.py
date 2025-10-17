@@ -3,6 +3,8 @@ from typing import Optional, Tuple
 
 from django.conf import settings
 
+# No heavy imports here; pyttsx3 and gTTS are imported inside helper functions with try/except.
+
 
 def _try_pyttsx3(text: str, voice: Optional[str] = None) -> Optional[Tuple[bytes, str]]:
     """

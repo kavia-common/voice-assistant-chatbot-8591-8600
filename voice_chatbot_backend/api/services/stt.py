@@ -2,7 +2,11 @@ import io
 import time
 from typing import Dict, Any, Optional
 
-import speech_recognition as sr
+# Guard import so the app can still start even if SpeechRecognition fails to install in some environments
+try:
+    import speech_recognition as sr  # type: ignore
+except Exception as _e:  # pragma: no cover
+    sr = None  # type: ignore
 from django.conf import settings
 
 
@@ -34,6 +38,8 @@ def transcribe_file(file_bytes: bytes, language: Optional[str] = None) -> Dict[s
     Returns:
       dict: { text: str, engine: str, duration_ms: int }
     """
+    if sr is None:
+        raise RuntimeError("SpeechRecognition library is not available.")
     recognizer = sr.Recognizer()
     start = time.time()
     engine_used = None

@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 120
+extend-ignore =
+    E203,  # whitespace before ':', compatible with black-like formatting
+    W503,  # line break before binary operator
+exclude =
+    .git,
+    __pycache__,
+    */migrations/*,
+    venv,
+    .venv,
+    env,
+    .env,
+    .init

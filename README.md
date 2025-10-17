@@ -38,6 +38,7 @@ Environment variables (.env):
 - STT_PREFERRED_ENGINE=google
 
 Notes:
-- STT uses SpeechRecognition. It attempts pocketsphinx if requested, else Google Web Speech API (no key).
-- TTS uses pyttsx3 (offline) to generate WAV; falls back to gTTS (MP3) if needed.
+- In container/preview environments, we avoid heavy system-level deps. We do not install pocketsphinx by default to keep builds reliable.
+- STT uses SpeechRecognition and will prefer Google Web Speech API unless you explicitly set STT_PREFERRED_ENGINE=sphinx and install pocketsphinx.
+- TTS uses pyttsx3 (offline) to generate WAV; falls back to gTTS (MP3) if needed. If system audio backends are unavailable, pyttsx3 may fail at runtime—code already falls back to gTTS.
 - Chat uses OpenAI if configured; else a simple heuristic responder.
