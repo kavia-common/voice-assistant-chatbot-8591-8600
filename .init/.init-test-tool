@@ -1,0 +1,4 @@
+{
+    "command": "python manage.py test",
+    "working_directory": "/home/kavia/workspace/code-generation/voice-assistant-chatbot-8591-8600/voice_chatbot_backend"
+}
