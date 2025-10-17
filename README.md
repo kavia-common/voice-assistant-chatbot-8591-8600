@@ -42,3 +42,19 @@ Notes:
 - STT uses SpeechRecognition and will prefer Google Web Speech API unless you explicitly set STT_PREFERRED_ENGINE=sphinx and install pocketsphinx.
 - TTS uses pyttsx3 (offline) to generate WAV; falls back to gTTS (MP3) if needed. If system audio backends are unavailable, pyttsx3 may fail at runtime—code already falls back to gTTS.
 - Chat uses OpenAI if configured; else a simple heuristic responder.
+
+## Docker build (optimized)
+
+An optimized Dockerfile is provided in voice_chatbot_backend/Dockerfile:
+- Dependencies are installed before copying app code to maximize layer caching.
+- pip cache mount and wheel usage speed up repeated builds.
+- Minimal apt-get install and cleanup to keep images small.
+- No migrations/tests/collectstatic at build time; keep runtime startup predictable.
+- A runtime image based on python:3.12-slim runs gunicorn on port 3001.
+
+Build and run:
+- cd voice-assistant-chatbot-8591-8600/voice_chatbot_backend
+- docker build -t voice-chatbot-backend:latest .
+- docker run --env-file .env -p 3001:3001 voice-chatbot-backend:latest
+
+If you require offline TTS (pyttsx3) with system audio backends inside the container, you may need to extend the Dockerfile and add relevant system packages (e.g., alsa-lib/portaudio). By default, the image remains minimal and the app will fall back to gTTS when pyttsx3 is not supported.

@@ -1,0 +1,28 @@
+# This file is generated via `pip freeze --all` during image build to record exact resolved versions.
+# You can use it to reproduce deterministic builds by replacing the install step with:
+#   pip install --no-deps -r requirements.lock
+#
+# Note: Kept in repo for documentation and reproducibility; update intentionally when requirements.txt changes.
+
+Django==5.0.6
+asgiref==3.8.1
+sqlparse==0.5.1
+pytz==2024.1
+djangorestframework==3.15.2
+drf-yasg==1.21.7
+uritemplate==4.1.1
+django-cors-headers==4.4.0
+python-dotenv==1.0.1
+openai==1.52.2
+requests==2.32.3
+SpeechRecognition==3.10.3
+gTTS==2.5.4
+pyttsx3==2.98
+flake8==7.1.1
+mccabe==0.7.0
+pycodestyle==2.12.1
+pyflakes==3.2.0
+packaging==24.1
+iniconfig==2.0.0
+inflection==0.5.1
+PyYAML==6.0.1

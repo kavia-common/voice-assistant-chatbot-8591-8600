@@ -22,3 +22,13 @@ Run:
 
 Swagger:
 - /docs
+
+## Docker and build optimization
+
+- Dockerfile uses multi-stage and installs dependencies before copying app code to maximize layer caching.
+- pip cache mount accelerates repeated builds; apt caches are cleaned.
+- No tests/migrations/collectstatic at build time; do these at runtime/CI if needed.
+- requirements.lock (generated during build) documents resolved versions for deterministic rebuilds. You may choose to:
+  - Continue installing from requirements.txt (default) for development convenience.
+  - Or pin to requirements.lock for strict reproducibility:
+    - Replace "pip install -r requirements.txt" with "pip install --no-deps -r requirements.lock" in Dockerfile or CI.
