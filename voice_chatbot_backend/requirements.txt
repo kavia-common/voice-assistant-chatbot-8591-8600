@@ -15,3 +15,16 @@ PyYAML==6.0.2
 sqlparse==0.5.3
 uritemplate==4.1.1
 django-cors-headers==4.7.0
+
+# New dependencies for STT/Chat/TTS pipeline
+python-dotenv==1.0.1
+SpeechRecognition==3.10.3
+openai==1.52.2
+pyttsx3==2.98
+gTTS==2.6.0
+requests==2.32.3
+
+# Optional (not installed by default):
+# pocketsphinx==5.0.3
+# nltk==3.9.1
+# chatterbot==1.0.5

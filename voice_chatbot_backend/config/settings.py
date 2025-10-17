@@ -11,19 +11,22 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# Load environment variables from .env if present
+env_path = BASE_DIR / ".env"
+load_dotenv(dotenv_path=env_path if env_path.exists() else None)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0ku_as45vs5isd^px=t#m8g#^*x7f=w#gw-xb^t@^-pom)r^t6'
+SECRET_KEY = os.getenv('SECRET_KEY') or 'dev-secret-key-change-in-prod'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.getenv('DEBUG', 'True').lower() in ['1', 'true', 'yes'])
 
 ALLOWED_HOSTS = [
     '.kavia.ai',
@@ -136,3 +139,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
 X_FRAME_OPTIONS = 'ALLOWALL'
+
+# External service settings from env
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
+# Defaults for engines
+TTS_ENGINE = os.getenv('TTS_ENGINE', 'pyttsx3')
+STT_PREFERRED_ENGINE = os.getenv('STT_PREFERRED_ENGINE', 'google')
