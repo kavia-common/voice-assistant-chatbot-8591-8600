@@ -36,3 +36,35 @@ Swagger:
 Note:
 - Docker CMD runs gunicorn (config.wsgi) on port 3001. Ensure gunicorn is installed (added in requirements.txt).
 - In DEBUG, ALLOWED_HOSTS is permissive. In production, set DJANGO_ALLOWED_HOSTS env (comma-separated).
+
+## Troubleshooting dependency install on slim images
+
+If `pip install -r requirements.txt` fails on a slim Python image:
+- Ensure you are building with Python 3.12 (default in Dockerfile).
+- We intentionally avoid OS-dependent audio packages (pyaudio, pocketsphinx, webrtcvad, torchaudio, opencv). Do not add them unless you extend the Dockerfile with the needed system libs.
+- If you must enable pocketsphinx (offline STT), add it explicitly and extend Dockerfile to install required system libraries. Otherwise leave it disabled and use the default Google Web Speech fallback.
+- If you see errors related to building wheels or compiling extensions, confirm that the build stage includes:
+  - build-essential
+  - libffi-dev
+These are already present in the Dockerfile’s deps stage.
+
+If you still hit installation issues, try:
+- Clearing pip caches and rebuilding: `docker build --no-cache ...`
+- Switching to the pinned lock for strict reproducibility:
+  - Replace the deps installation line with `pip install --no-deps -r /app/requirements.lock` after generating it once successfully.
+
+Known good pins:
+- Django==5.0.6
+- djangorestframework==3.15.2
+- drf-yasg==1.21.7
+- SpeechRecognition==3.10.3
+- gTTS==2.5.4
+- pyttsx3==2.98
+- gunicorn==22.0.0
+
+Optional heavy/OS-dependent packages (not installed by default):
+- pocketsphinx (offline STT)
+- pyaudio/portaudio
+- webrtcvad
+- torchaudio/torch
+- opencv-python
