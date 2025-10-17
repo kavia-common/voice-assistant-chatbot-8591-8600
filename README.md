@@ -32,6 +32,7 @@ Endpoints (base /api):
 Environment variables (.env):
 - DEBUG=True
 - SECRET_KEY=change-me
+- DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,.kavia.ai  # optional; defaults permissive when DEBUG=True
 - OPENAI_API_KEY=sk-...
 - GOOGLE_APPLICATION_CREDENTIALS=/path/to/google/creds.json
 - TTS_ENGINE=pyttsx3

@@ -28,12 +28,20 @@ SECRET_KEY = os.getenv('SECRET_KEY') or 'dev-secret-key-change-in-prod'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.getenv('DEBUG', 'True').lower() in ['1', 'true', 'yes'])
 
-ALLOWED_HOSTS = [
-    '.kavia.ai',
-    'localhost',
-    '127.0.0.1',
-    'testserver',
-]
+# Allow configuring hosts via env; default to permissive in DEBUG to ease preview/container usage
+_allowed_hosts_env = os.getenv('DJANGO_ALLOWED_HOSTS')
+if _allowed_hosts_env:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_env.split(',') if h.strip()]
+else:
+    # Include common hosts and 0.0.0.0; when DEBUG, allow all (*)
+    default_hosts = [
+        '.kavia.ai',
+        'localhost',
+        '127.0.0.1',
+        '0.0.0.0',
+        'testserver',
+    ]
+    ALLOWED_HOSTS = ['*'] if DEBUG else default_hosts
 
 
 # Application definition

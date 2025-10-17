@@ -32,3 +32,7 @@ Swagger:
   - Continue installing from requirements.txt (default) for development convenience.
   - Or pin to requirements.lock for strict reproducibility:
     - Replace "pip install -r requirements.txt" with "pip install --no-deps -r requirements.lock" in Dockerfile or CI.
+
+Note:
+- Docker CMD runs gunicorn (config.wsgi) on port 3001. Ensure gunicorn is installed (added in requirements.txt).
+- In DEBUG, ALLOWED_HOSTS is permissive. In production, set DJANGO_ALLOWED_HOSTS env (comma-separated).
